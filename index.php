@@ -6,10 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="alert/dist/sweetalert-dev.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="alert/dist/sweetalert.css">
     <title>Document</title>
 </head>
 <style>
+    body {
+        font-family: 'Sarabun', sans-serif;
+    }
+
     .body {
         background-color: white;
         display: inline-block;
@@ -19,7 +26,6 @@
     .content {
         display: inline;
         text-align: center;
-
     }
 
     .head-text {
@@ -41,12 +47,10 @@
         left: 50%;
         width: 50%;
         text-align: left;
-
     }
 
     .middle {
         border-style: outset;
-
     }
 
     .css {
@@ -58,49 +62,79 @@
         width: 100%;
     }
 
-    .num {}
+    input::placeholder {
+        font-weight: bold;
+    }
+
+    .showContent {
+        display: inline;
+        text-align: center;
+
+    }
+
+    .line {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
 </style>
 
 <body>
     <?php
 
     $headname = "";
-    $name = "หัวข้อกระทู้";
+    $name = "เนื้อหากระทู้";
     $contentErr = "";
     $content = "";
     $saveContent = "";
     $nameErr = "";
+    $loggedin = true;
+    $checkerrName = false;
+    $checkerrCon = false;
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["headname"])) {
             $nameErr = "* ใส่หัวข้อกระทู้";
+            $checkerrName = false;
         } else {
             $length = strlen(($_POST["headname"]));
             if ($length <= 140 && $length >= 4) {
                 $check = valid_input_hname(($_POST["headname"]));
-                if($check  == false){
+                if ($check  == false) {
                     $nameErr = "* ชื่อกระทู้จะไม่อนุญาตให้ใส่ HTML";
-
-                }else{
+                    $checkerrName = false;
+                } else {
                     $headname = $check;
+                    $checkerrName = true;
                 }
-                
             } else {
                 $nameErr = "* ชื่อกระทู้ต้องยาว 4-140 ตัวอักษร";
+                $checkerrName = false;
             }
         }
         if (empty($_POST["content"])) {
             $contentErr = "* ใส่เนื้อหากระทู้";
+            $checkerrCon = false;
         } else {
             $length = strlen(($_POST["content"]));
             if ($length <= 2000 && $length >= 6) {
                 $saveContent = $_POST["content"];
-                
                 $content = valid_input_content(($_POST["content"]));
+                $checkerrCon = true;
+
             } else {
                 $contentErr = "* เนื้อหากระทู้ต้องยาว 6-2000 ตัวอักษร";
+                $checkerrCon = false;
+
             }
         }
+        if($checkerrCon === true && $checkerrName === true){
+            $loggedin = false;
+        }else if($checkerrCon === false || $checkerrName === false){
+            $loggedin = true;
+        }
+        
     }
+
+
     function valid_input_hname($data)
     {
         $processed = strip_tags($data);
@@ -111,7 +145,6 @@
     {
         $processed = htmlentities($data);
         return $processed;
-       
     }
     ?>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -144,7 +177,7 @@
 
                         </div>
                         <div>
-                            <div>
+                            <div style="margin-bottom: 0.5vw;">
                                 <p class="" type="text" name="" style="display: inline; font-size: 1vw;" placeholder="เนื้อหากระทู้"><?php echo $name; ?></p>
                                 <p class="num" style="display: inline;;"><span class="error" style=" color: red; font-size: 1vw; float:right; padding-right: 0.5vw"> <?php echo $contentErr; ?></span></p>
                             </div>
@@ -173,18 +206,39 @@
                     </div>
                 </div>
             </div>
+            <div class="content">
+                <p style="justify-items: center; justify-content: center; ">
+                    <input style="border-radius: 12px;  cursor: pointer; border-style: bold; border-color: #F85A18 ; background-color: #F85A18; color: white;" type="submit" name="submit" value="Submit">
+                </p>
+
+            </div>
         </div>
-        <input type="submit" name="submit" value="Submit">
+
 
 
     </form>
-    <?php
-    echo "<h2>Your Input:</h2>";
-    echo $headname;
-    echo "<br>";
-    echo html_entity_decode($saveContent);
+    <?php if($loggedin===false){?>
 
-    ?>
+    <div class="body">
+        <div class="showContent">
+            <div style="margin-top: 2vw">
+                <p style="font-size: 2vw;"><?php echo "กระทู้ของคุณ" ?></p>
+                <div style="width: 50%; height: 50%; display: inline-block; background-color: white; border-style: outset; border-color: #8F785F;">
+                    <div style="background-color: #E7996C; height: 15%">
+                        <div style="background-color: #E7996C; color:#FFFFFF; font-size: 2vw;"><?php echo $headname ?></div>
+                    </div>
+                    <div class="line" style="width: 100%; text-align: left; margin-left:0.1vw;">
+                        <?php echo $saveContent ?>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+<?php }?>
+
 
 </body>
 
