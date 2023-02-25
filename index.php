@@ -79,6 +79,7 @@
 </style>
 
 <body>
+
     <?php
 
     $headname = "";
@@ -95,7 +96,7 @@
             $nameErr = "* ใส่หัวข้อกระทู้";
             $checkerrName = false;
         } else {
-            $length = strlen(($_POST["headname"]));
+            $length = mb_strlen(($_POST["headname"]));
             if ($length <= 140 && $length >= 4) {
                 $check = valid_input_hname(($_POST["headname"]));
                 if ($check  == false) {
@@ -114,7 +115,7 @@
             $contentErr = "* ใส่เนื้อหากระทู้";
             $checkerrCon = false;
         } else {
-            $length = strlen(($_POST["content"]));
+            $length = mb_strlen(($_POST["content"]));
             if ($length <= 2000 && $length >= 6) {
                 $saveContent = $_POST["content"];
                 $content = valid_input_content(($_POST["content"]));
@@ -184,19 +185,19 @@
 
                             <div style="display: block;">
 
-                                <p style=" display: inline; border-style:ridge;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086;</i> Source</p>
-                                <p style=" display: inline; border-style:ridge; padding-left: 1vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; &#xf086; &#xf086; &#xf086; &#xf086; &#xf086; &#xf086;</i></p>
-                                <p style=" display: inline; border-style:ridge; padding-left: 1vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; &#xf086; &#xf086; &#xf086; &#xf086;</i></p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481' class='fas'> &#xf1c9;</i> Source</p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf0c4; &#xf24d; &#xf15c; &#xf1c3; &#xf1c2; &#xf3e5; &#xf064;</i> </p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481; padding: 0.5 vw' class='fas'>&#xf03e; &#xf674; &#xf328; &#xf008; &#xf118;</i> </p>
 
                             </div>
                             <div style="display: block; margin-top: 0.5vw">
 
-                                <p style=" display: inline; border-style:ridge;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; &#xf086; &#xf086; &#xf086;</i></p>
-                                <p style=" display: inline; border-style:ridge;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; &#xf086; &#xf086; &#xf086;</i></p>
-                                <p style=" display: inline; border-style:ridge;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; &#xf086; &#xf086;</i></p>
-                                <p style=" display: inline; border-style:ridge;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; </i></p>
-                                <p style=" display: inline; border-style:ridge;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; &#xf086;</i></p>
-                                <p style=" display: inline; border-style:ridge;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf086; </i></p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf032; &#xf033; &#xf0cd; &#xf034;</i></p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf036; &#xf037; &#xf038; &#xf039;</i></p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf0c1; &#xf127; &#xf02b;</i></p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"> size <i style='font-size:16px; color:#A69481' class='fas'>&#xf150; </i></p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf031; 	&#xf891;</i></p>
+                                <p style=" display: inline; border-style:ridge; padding-left: 0.5vw; padding-right: 0.5vw;"><i style='font-size:16px; color:#A69481' class='fas'>&#xf0b2; </i></p>
                             </div>
                             <div style="height: 25vw; border-style:ridge; ">
                                 <textarea class="css" type="text" name="content" style="height: 100%" placeholder="" value="<?php echo $content; ?>"><?php echo $saveContent; ?></textarea>
